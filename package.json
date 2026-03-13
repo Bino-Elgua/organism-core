@@ -1,13 +1,20 @@
 {
   "name": "organism-core",
   "version": "1.0.0",
-  "description": "",
+  "description": "The nerve center for the Technosis Ecosystem",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx tsx test/one-breath.test.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "@bino-elgua/swibe": "file:../swibe",
+    "@bino-elgua/omokoda": "file:../omokoda",
+    "@bino-elgua/zangbeto": "file:../zangbeto",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
+  }
 }
