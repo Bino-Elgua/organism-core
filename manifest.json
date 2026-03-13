@@ -1,0 +1,92 @@
+{
+  "name": "organism-core",
+  "version": "1.0.0",
+  "description": "The nerve center for the Technosis Ecosystem",
+  "nodes": {
+    "Ifascript": {
+      "role": "entropy-source",
+      "description": "Whispers of entropy and Odu patterns",
+      "tech": "Rust",
+      "output": "odu-binary"
+    },
+    "Swibe": {
+      "role": "agent-identity",
+      "description": "The language of birthing agents",
+      "tech": "JavaScript/Vibe",
+      "input": "keypair"
+    },
+    "Omokoda": {
+      "role": "governance-logic",
+      "description": "The parliamentary mind of the organism",
+      "tech": "TypeScript/Move",
+      "output": "parliamentary-dispatch"
+    },
+    "Osovm": {
+      "role": "execution-engine",
+      "description": "Verifies every thought with domain-specific opcodes",
+      "tech": "Julia/Rust",
+      "input": "opcodes"
+    },
+    "AIO": {
+      "role": "blockchain-settlement",
+      "description": "Pumping ToC (Tithe of Creation) and finality",
+      "tech": "Move/Node.js",
+      "input": "move-calls"
+    },
+    "Zangbeto": {
+      "role": "security-audit",
+      "description": "The immune system watching receipts",
+      "tech": "TypeScript",
+      "input": "receipts"
+    },
+    "Nex": {
+      "role": "graph-runtime",
+      "description": "Alien mind reasoning and self-bootstrapping",
+      "tech": "TypeScript/Bun"
+    }
+  },
+  "wiring": [
+    {
+      "from": "Ifascript",
+      "to": "Swibe",
+      "bridge": "bridge/birth-ifa-swibe.ts",
+      "event": "COWRIE_CAST",
+      "description": "Cast Odu entropy to generate agent keypair"
+    },
+    {
+      "from": "Omokoda",
+      "to": "Osovm",
+      "bridge": "bridge/rlm-osovm.ts",
+      "event": "LOBE_DISPATCH",
+      "description": "Route parliamentary logic to VM opcodes"
+    },
+    {
+      "from": "AIO",
+      "to": "AIO",
+      "bridge": "bridge/toc-evolve-hook.ts",
+      "event": "SOUL_EVOLVE",
+      "description": "Mint ToC rewards upon soul evolution"
+    },
+    {
+      "from": "Osovm",
+      "to": "Zangbeto",
+      "bridge": "bridge/zangbeto-audit.ts",
+      "event": "RECEIPT_GENERATED",
+      "description": "Watch VM receipts and slash heretical state"
+    }
+  ],
+  "schemas": {
+    "odu": "binary[8]",
+    "receipt": {
+      "id": "string",
+      "hash": "string",
+      "signer": "address",
+      "status": "valid|heresy"
+    },
+    "soul": {
+      "id": "string",
+      "rank": "number",
+      "tithe_accumulated": "u64"
+    }
+  }
+}
