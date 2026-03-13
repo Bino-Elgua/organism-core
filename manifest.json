@@ -41,7 +41,7 @@
     },
     "Nex": {
       "role": "graph-runtime",
-      "description": "Alien mind reasoning and self-bootstrapping",
+      "description": "Persistent graph execution server (Nex Gateway: 18789)",
       "tech": "TypeScript/Bun"
     }
   },

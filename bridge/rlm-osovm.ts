@@ -26,9 +26,9 @@ export interface VMResult {
 
 /**
  * Execute a task on the OSO VM via the CLI wrapper.
- * This resolves "Dam 1" by connecting the high-level logic to the VM.
  */
 export async function executeTask(msg: DispatchMessage): Promise<VMResult> {
+  const forceReal = process.env.FORCE_REAL_VM === 'true' || process.env.REALLY_BREATHE === 'true';
   console.log(`[Organism] Executing VM Task: ${msg.opcode} for agent ${msg.agent_pubkey.slice(0, 10)}...`);
 
   const cliPath = path.resolve(__dirname, '../../osovm/src/cli.jl');
@@ -38,7 +38,6 @@ export async function executeTask(msg: DispatchMessage): Promise<VMResult> {
   });
 
   try {
-    // Attempt real Julia execution
     const { stdout } = await exec('julia', [
       cliPath,
       '--task', taskJson,
@@ -54,13 +53,17 @@ export async function executeTask(msg: DispatchMessage): Promise<VMResult> {
     return result;
 
   } catch (err) {
-    // FALLBACK: If Julia fails (e.g., binary architecture mismatch in Termux),
-    // we enter SIMULATION MODE to keep the "nerve center" breathing while reporting the gap.
+    if (forceReal) {
+      console.error(`[Organism] ❌ FATAL: Real Julia VM execution failed and FORCE_REAL_VM=true.`);
+      throw new Error(`Real VM execution failed: ${err}`);
+    }
+
+    // FALLBACK
     console.warn(`[Organism] ⚠️ Julia VM execution failed (System Error). Falling back to Simulation Mode.`);
     
     const simulatedResult: VMResult = {
       vm_task_hash: "sim-hash-" + Buffer.from(taskJson).toString('hex').slice(0, 16),
-      f1_score: 91.0, // High enough to pass toc.move thresholds
+      f1_score: 91.0, 
       ase_minted: 5.0,
       vm_result: { status: "simulated_success", opcode: msg.opcode },
       status: 'simulated'
@@ -71,9 +74,6 @@ export async function executeTask(msg: DispatchMessage): Promise<VMResult> {
   }
 }
 
-/**
- * Legacy dispatch function
- */
 export async function dispatchToVM(msg: any) {
   return executeTask({
     agent_pubkey: msg.agent_pubkey || 'genesis',
