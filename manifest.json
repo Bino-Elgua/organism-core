@@ -43,6 +43,13 @@
       "role": "graph-runtime",
       "description": "Persistent graph execution server (Nex Gateway: 18789)",
       "tech": "TypeScript/Bun"
+    },
+    "TwelveThrones": {
+      "role": "epistemology-engine",
+      "description": "Distributed consensus with weighted voting and epistemic mapping",
+      "tech": "TypeScript/Sui/Arweave",
+      "input": "question",
+      "output": "consensus-verdict"
     }
   },
   "wiring": [
@@ -73,6 +80,13 @@
       "bridge": "bridge/zangbeto-audit.ts",
       "event": "RECEIPT_GENERATED",
       "description": "Watch VM receipts and slash heretical state"
+    },
+    {
+      "from": "Zangbeto",
+      "to": "TwelveThrones",
+      "bridge": "bridge/twelve-thrones-consensus.ts",
+      "event": "AUDIT_VERIFIED",
+      "description": "After audit passes, submit thought for epistemic consensus"
     }
   ],
   "schemas": {

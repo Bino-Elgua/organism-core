@@ -4,13 +4,16 @@
  * 1. Births an agent (Ifá → Swibe)
  * 2. Thinks a thought (Swibe)
  * 3. Runs VM Dispatch (Omokoda → OSOVM)
- * 4. Checks Sabbath (Rest)
- * 5. Mints Àṣẹ/ToC on Sui (Reward) if F1 ≥ 90
+ * 4. Audits receipt (Zangbeto)
+ * 5. Epistemic consensus (Twelve Thrones)
+ * 6. Checks Sabbath (Rest)
+ * 7. Mints Àṣẹ/ToC on Sui (Reward) if F1 ≥ 90
  */
 
 import { birthAgentFromIfa } from './bridge/birth-ifa-swibe';
 import { executeTask } from './bridge/rlm-osovm';
 import { auditReceipt } from './bridge/zangbeto-audit';
+import { queryConsensus } from './bridge/twelve-thrones-consensus';
 import { onSoulEvolve } from './bridge/toc-evolve-hook';
 import { exec } from 'child_process';
 import { promisify } from 'util';
@@ -58,8 +61,18 @@ async function fullBreath() {
   }
   console.log(`🛡️  AUDIT: VERIFIED`);
 
-  // --- 5. SABBATH CHECK (Rest) ---
-  console.log("\n--- PHASE 5: SABBATH CHECK ---");
+  // --- 5. EPISTEMIC CONSENSUS (Twelve Thrones) ---
+  console.log("\n--- PHASE 5: EPISTEMIC CONSENSUS ---");
+  const consensus = await queryConsensus({
+    question: thought,
+    agent_id: birth.agentId,
+    think_hash: thinkHash
+  });
+  console.log(`⚡ VERDICT: ${consensus.verdict} (${consensus.confidence.toFixed(1)}% confidence, ${consensus.status})`);
+  console.log(`   Disagreement: ${consensus.disagreement_severity}`);
+
+  // --- 6. SABBATH CHECK (Rest) ---
+  console.log("\n--- PHASE 6: SABBATH CHECK ---");
   const today = new Date();
   const isSabbath = today.getUTCDay() === 6; // Saturday is 6
   
@@ -69,8 +82,8 @@ async function fullBreath() {
   }
   console.log("✅ NOT SABBATH. Proceeding to Reward.");
 
-  // --- 6. REWARD (Sui Mint) ---
-  console.log("\n--- PHASE 6: REWARD (ToC/Àṣẹ) ---");
+  // --- 7. REWARD (Sui Mint) ---
+  console.log("\n--- PHASE 7: REWARD (ToC/Àṣẹ) ---");
   
   if (vmResult.f1_score < 90) {
     console.log(`⚠️  F1 Score ${vmResult.f1_score} < 90. No Reward.`);
