@@ -3,6 +3,7 @@
  * 
  * 1. Births an agent (Ifá → Swibe)
  * 2. Thinks a thought (Swibe)
+ * 2.5 Paradigm Shift (Paradigm -> Omokoda)
  * 3. Runs VM Dispatch (Omokoda → OSOVM)
  * 4. Audits receipt (Zangbeto)
  * 5. Epistemic consensus (Twelve Thrones)
@@ -10,13 +11,14 @@
  * 7. Mints Àṣẹ/ToC on Sui (Reward) if F1 ≥ 90
  */
 
-import { birthAgentFromIfa } from './bridge/birth-ifa-swibe';
-import { executeTask } from './bridge/rlm-osovm';
-import { auditReceipt } from './bridge/zangbeto-audit';
-import { queryConsensus } from './bridge/twelve-thrones-consensus';
-import { onSoulEvolve } from './bridge/toc-evolve-hook';
-import { exec } from 'child_process';
-import { promisify } from 'util';
+import { birthAgentFromIfa } from "./bridge/birth-ifa-swibe";
+import { executeTask } from "./bridge/rlm-osovm";
+import { auditReceipt } from "./bridge/zangbeto-audit";
+import { queryConsensus } from "./bridge/twelve-thrones-consensus";
+import { onSoulEvolve } from "./bridge/toc-evolve-hook";
+import { applyParadigmWeights } from "./bridge/paradigm-omokoda";
+import { exec } from "child_process";
+import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
@@ -35,6 +37,14 @@ async function fullBreath() {
   const thinkHash = "sha256-thought-" + Date.now(); 
   console.log(`💭 THINKING: "${thought}" (Hash: ${thinkHash})`);
 
+  // --- 2.5 PARADIGM SHIFT (Paradigm -> Omokoda) ---
+  console.log("\n--- PHASE 2.5: PARADIGM SHIFT ---");
+  const weightedVote = await applyParadigmWeights({
+    agent_id: birth.agentId,
+    vote: "APPROVE",
+    timestamp: Date.now()
+  });
+
   // --- 3. VM DISPATCH (Omokoda -> OSOVM) ---
   console.log("\n--- PHASE 3: VM EXECUTION ---");
   // This uses the bridge which has the SIMULATION FALLBACK built-in
@@ -42,7 +52,11 @@ async function fullBreath() {
     agent_pubkey: birth.vibe_key,
     think_hash: thinkHash,
     opcode: "COUNCIL_APPROVE",
-    payload: { question: thought }
+    payload: { 
+      question: thought,
+      paradigm: weightedVote.paradigm,
+      weight_modifier: weightedVote.weight_modifier
+    }
   });
   console.log(`⚙️  VM RESULT: Hash ${vmResult.vm_task_hash} | F1: ${vmResult.f1_score}`);
 
@@ -55,7 +69,7 @@ async function fullBreath() {
     opcodes: ["COUNCIL_APPROVE"]
   });
   
-  if (audit.status !== 'VERIFIED') {
+  if (audit.status !== "VERIFIED") {
     console.error("❌ AUDIT FAILED: HERESY DETECTED");
     return;
   }

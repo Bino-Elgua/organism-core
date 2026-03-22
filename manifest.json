@@ -54,6 +54,13 @@
   },
   "wiring": [
     {
+      "from": "Paradigm",
+      "to": "Omokoda",
+      "bridge": "bridge/paradigm-omokoda.ts",
+      "event": "PARLIAMENT_VOTE",
+      "description": "Adjust vote weights based on global consciousness mode"
+    },
+    {
       "from": "Ifascript",
       "to": "Swibe",
       "bridge": "bridge/birth-ifa-swibe.ts",
