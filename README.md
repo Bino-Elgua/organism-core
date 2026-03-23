@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-v1.2-blue)
+![Version](https://img.shields.io/badge/version-v1.0.0-blue)
 ![License](https://img.shields.io/badge/license-Private-darkred)
 ![Layer](https://img.shields.io/badge/layer-Coordination-purple)
 # 🌿 Organism Core: The Nerve Center
