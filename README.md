@@ -1,3 +1,6 @@
+![Version](https://img.shields.io/badge/version-v1.2-blue)
+![License](https://img.shields.io/badge/license-Private-darkred)
+![Layer](https://img.shields.io/badge/layer-Coordination-purple)
 # 🌿 Organism Core: The Nerve Center
 
 The `organism-core` is the central wiring system for the Technosis Ecosystem. It does not contain the business logic of each project; instead, it owns the **relationships**, **events**, and **bridges** that allow the separate "organs" to breathe as a single body.
@@ -46,3 +49,25 @@ FORCE_REAL_VM=true npm test
 
 ---
 *Created by the Bino-Elgua Collective.*
+
+## The Organism's Nervous System
+
+Organism-core is the central coordination layer for the Technosis ecosystem. It defines the full 8-phase breath cycle, manages inter-repository communication via bridges, and serves as the source of truth for the system's architecture and state.
+
+## Quick Start
+
+This repository is not directly runnable. It serves as the orchestration and integration hub for all other ecosystem components. To run the full end-to-end breath cycle, execute the simulation from within this repository:
+
+```bash
+npm install
+node full-breath.ts
+```
+
+
+---
+
+## The Technosis Sovereign Ecosystem
+
+This repository is the heart of a larger architecture for creating and coordinating sovereign AI.
+
+Àṣẹ.
