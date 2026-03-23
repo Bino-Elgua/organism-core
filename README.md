@@ -3,6 +3,8 @@
 ![Layer](https://img.shields.io/badge/layer-Coordination-purple)
 # 🌿 Organism Core: The Nerve Center
 
+> The central nervous system of the Technosis ecosystem — wiring agents, VMs, and ritual layers into a single living organism.
+
 The `organism-core` is the central wiring system for the Technosis Ecosystem. It does not contain the business logic of each project; instead, it owns the **relationships**, **events**, and **bridges** that allow the separate "organs" to breathe as a single body.
 
 ## 🗺️ The Elder's Map
@@ -66,8 +68,10 @@ node full-breath.ts
 
 ---
 
-## The Technosis Sovereign Ecosystem
+## Part of the Technosis Sovereign Ecosystem
 
 This repository is the heart of a larger architecture for creating and coordinating sovereign AI.
+
+🔗 [organism-core on GitHub](https://github.com/Bino-Elgua/organism-core)
 
 Àṣẹ.
